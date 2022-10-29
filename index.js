@@ -47,6 +47,7 @@ async function updateItemDue(item) {
   console.log(item.properties.Due.date)
   var oldDate = new Date(item.properties.Due.date.start);
   var newDate = date.addDays(oldDate, item.properties['Recur Interval (Days)'].number);
+  newDate = date.addHours(newDate, process.env.TIMEZONE_HOUR_OFFSET );
   const response = await notion.pages.update({
     page_id: item.id,
     properties: {
@@ -65,10 +66,12 @@ async function updateItemDue(item) {
   console.log("Updated tasks.");
 }
 
-schedule.scheduleJob('0 0 4 * *', async function() {
+// schedule.scheduleJob('0 0 4 * *', async function() {
     console.log('This runs every day at 4:00 AM.');
     var pages = await getDoneItem();
     var tasks = pages.results
-    console.log(tasks[0].properties.Due)
-    tasks.forEach(x => updateItemDue(x));
-});
+    if (tasks.length > 0)
+      tasks.forEach(x => updateItemDue(x));
+    else
+      console.log("No tasks to update.")
+// });
