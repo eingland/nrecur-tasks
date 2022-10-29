@@ -66,12 +66,21 @@ async function updateItemDue(item) {
   console.log("Updated tasks.");
 }
 
-// schedule.scheduleJob('0 0 4 * *', async function() {
-    console.log('This runs every day at 4:00 AM.');
-    var pages = await getDoneItem();
+async function main() {
+  var pages = await getDoneItem();
     var tasks = pages.results
     if (tasks.length > 0)
       tasks.forEach(x => updateItemDue(x));
     else
       console.log("No tasks to update.")
-// });
+}
+
+schedule.scheduleJob('0 0 4 * *', async function() {
+    console.log('This runs every day at 4:00 AM.');
+    main();
+});
+
+if (process.env.ENVIRONMENT == "Development")
+{
+  main();
+}
