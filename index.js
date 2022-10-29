@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { Client } from "@notionhq/client"
 import date from 'date-and-time';
-import schedule from 'node-schedule';
+import cron from 'node-cron';
 
 dotenv.config();
 const notion = new Client({ auth: process.env.NOTION_KEY })
@@ -75,7 +75,7 @@ async function main() {
       console.log("No tasks to update.")
 }
 
-schedule.scheduleJob('0 0 4 * *', async function() {
+cron.schedule('0 0 4 * *', async function() {
     console.log('This runs every day at 4:00 AM.');
     main();
 });
@@ -83,5 +83,4 @@ schedule.scheduleJob('0 0 4 * *', async function() {
 if (process.env.ENVIRONMENT == "Development")
 {
   main();
-  schedule.gracefulShutdown();
 }
