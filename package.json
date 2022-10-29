@@ -5,7 +5,9 @@
     "description": "",
     "main": "index.js",
     "dependencies": {
-      "@notionhq/client": "^1.0.1"
-    } 
-  }
-  
+        "@notionhq/client": "^1.0.1",
+        "date-and-time": "^2.4.1",
+        "dotenv": "^16.0.3",
+        "node-schedule": "^2.1.0"
+    }
+}
