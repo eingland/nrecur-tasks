@@ -83,4 +83,5 @@ schedule.scheduleJob('0 0 4 * *', async function() {
 if (process.env.ENVIRONMENT == "Development")
 {
   main();
+  schedule.gracefulShutdown();
 }
