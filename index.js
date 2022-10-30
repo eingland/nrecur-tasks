@@ -75,8 +75,8 @@ async function main() {
       console.log("No tasks to update.")
 }
 
-cron.schedule('0 0 4 * *', async function() {
-    console.log('This runs every day at 4:00 AM.');
+cron.schedule('*/30 * * * *', async function() {
+    console.log('This runs every 30 minutes.');
     main();
 });
 
