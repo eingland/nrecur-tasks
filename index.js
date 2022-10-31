@@ -6,10 +6,9 @@ import cron from 'node-cron';
 dotenv.config();
 const notion = new Client({ auth: process.env.NOTION_KEY })
 const databaseId = process.env.NOTION_DATABASE_ID
-const now  =  new Date();
 
 async function getDoneItem() {
-
+  const now  =  new Date();
     try {
         const response = await notion.databases.query({
             database_id: databaseId,
@@ -67,6 +66,7 @@ async function updateItemDue(item) {
 }
 
 async function main() {
+  
   var pages = await getDoneItem();
     var tasks = pages.results
     if (tasks.length > 0)
