@@ -27,9 +27,15 @@ async function getDoneItem() {
                   }
                 },
                 {
-                  property: 'Recur Interval (Days)',
+                  property: 'Recur Interval',
                   number: {
                     greater_than_or_equal_to: 1,
+                  },  
+                },
+                {
+                  property: 'Recur Type',
+                  select: {
+                    is_not_empty: true,
                   },  
                 },
               ],
@@ -43,9 +49,22 @@ async function getDoneItem() {
 }
 
 async function updateItemDue(item) {
-  console.log(item.properties.Due.date)
   var oldDate = new Date(item.properties.Due.date.start);
-  var newDate = date.addDays(oldDate, item.properties['Recur Interval (Days)'].number);
+
+  if (item.properties['Recur Type'].select.name == "Daily")
+  {
+    var newDate = date.addDays(oldDate, item.properties['Recur Interval'].number);
+  } else if (item.properties['Recur Type'].select.name == "Weekly")
+  {
+    var newDate = date.addDays(oldDate, item.properties['Recur Interval'].number * 7);
+  } else if (item.properties['Recur Type'].select.name == "Monthly")
+  {
+    var newDate = date.addMonths(oldDate, item.properties['Recur Interval'].number);
+  } else if (item.properties['Recur Type'].select.name == "Yearly")
+  {
+    var newDate = date.addYears(oldDate, item.properties['Recur Interval'].number);
+  }
+  
   newDate = date.addHours(newDate, process.env.TIMEZONE_HOUR_OFFSET );
   const response = await notion.pages.update({
     page_id: item.id,
@@ -68,11 +87,18 @@ async function updateItemDue(item) {
 async function main() {
   
   var pages = await getDoneItem();
-    var tasks = pages.results
-    if (tasks.length > 0)
-      tasks.forEach(x => updateItemDue(x));
+    if (pages)
+    {
+      var tasks = pages.results
+      if (tasks.length > 0)
+        tasks.forEach(x => updateItemDue(x));
+      else
+        console.log("No tasks to update.")
+    }
     else
-      console.log("No tasks to update.")
+    {
+      console.log("No response from API.")
+    }
 }
 
 cron.schedule('*/30 * * * *', async function() {
