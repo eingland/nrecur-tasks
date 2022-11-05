@@ -25,3 +25,10 @@ npm start
 docker pull eingland/nrecur-tasks:latest
 docker compose up -d
 ```
+
+### Docker Build
+
+```
+docker build -t eingland/nrecur-tasks .
+docker push eingland/nrecur-tasks:latest
+```
