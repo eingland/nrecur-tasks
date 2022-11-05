@@ -28,7 +28,4 @@ docker compose up -d
 
 ### Docker Build
 
-```
-docker build -t eingland/nrecur-tasks .
-docker push eingland/nrecur-tasks:latest
-```
+Using Github Actions to push to Docker Hub
