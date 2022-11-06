@@ -96,12 +96,9 @@ async function main() {
   }
 }
 
+main();
 
-
-if (process.env.ENVIRONMENT == "Development") {
-  main();
-}
-else {
+if (process.env.ENVIRONMENT != "Development") {
   cron.schedule('*/30 * * * *', async function () {
     console.log('This runs every 30 minutes.');
     main();
