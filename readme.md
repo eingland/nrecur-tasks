@@ -22,7 +22,7 @@ npm start
 ### Run with Docker
 
 ```
-docker pull eingland/nrecur-tasks:latest
+docker pull ghcr.io/eingland/nrecur-tasks:latest
 docker compose up -d
 ```
 
