@@ -1,6 +1,9 @@
 # Choose the Image which has Node installed already
 FROM node:18-alpine
 
+ENV TZ America/Chicago
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # COPY all the files from Current Directory into the Container
 COPY ./ ./
 
