@@ -14,14 +14,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: docker login
-      env:
-        DOCKER_USER: ${{secrets.DOCKER_USER}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+    
+    - name: Log into GitHub Container Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag eingland/nrecur-tasks:latest
-      
-    - name: Docker Push
-      run: docker push eingland/nrecur-tasks
+      run: docker build . --file Dockerfile --tag ${{ github.repository_owner }}/nrecur-tasks:latest
+
+    - name: Push image to GitHub Container Registry
+      run: |
+      IMAGE_ID=ghcr.io/${{ github.repository_owner }}/nrecur-tasks:latest       
+      docker push $IMAGE_ID
