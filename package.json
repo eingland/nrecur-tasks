@@ -1,0 +1,16 @@
+{
+    "name": "nrecur-tasks",
+    "type": "module",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "dependencies": {
+        "@notionhq/client": "^1.0.1",
+        "date-and-time": "^2.4.1",
+        "dotenv": "^16.0.3",
+        "node-cron": "^3.0.2"
+    },
+    "scripts": {
+        "start": "node index.js"
+    }
+}

@@ -1,0 +1,9 @@
+version: '3'
+services:
+  nodejs:
+    container_name: 'nrecur-tasks'
+    image: eingland/nrecur-tasks
+    environment:
+      NOTION_KEY: ${NOTION_KEY}
+      NOTION_DATABASE_ID: ${NOTION_DATABASE_ID}
+      TZ: ${TIMEZONE}
